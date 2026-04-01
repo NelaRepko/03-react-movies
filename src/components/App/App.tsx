@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SearchBar from "../SearchBar/SearchBar-old"; // обов'язково новий
+import SearchBar from "../SearchBar/SearchBar"; // обов'язково новий
 import MovieGrid from "../MovieGrid/MovieGrid";
 import Loader from "../Loader/Loader";
 import ErrorMessage from "../ErrorMessage/ErrorMessage";
