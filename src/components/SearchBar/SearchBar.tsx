@@ -7,12 +7,9 @@ export type SearchBarProps = {
 };
 
 export default function SearchBar({ onSubmit }: SearchBarProps) {
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-
-    const form = e.currentTarget as HTMLFormElement;
-    const input = form.elements.namedItem("query") as HTMLInputElement;
-    const value = input.value.trim();
+  // Використовуємо Form Actions API через action
+  const handleSubmitAction = async (formData: FormData) => {
+    const value = (formData.get("query") as string | null)?.trim() ?? "";
 
     if (!value) {
       toast.error("Please enter your search query.");
@@ -20,7 +17,6 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
     }
 
     onSubmit(value);
-    form.reset();
   };
 
   return (
@@ -35,7 +31,13 @@ export default function SearchBar({ onSubmit }: SearchBarProps) {
           Powered by TMDB
         </a>
 
-        <form className={styles.form} onSubmit={handleSubmit}>
+        {/* Використовуємо action замість onSubmit */}
+        <form
+          className={styles.form}
+          action={async (formData: FormData) => {
+            await handleSubmitAction(formData);
+          }}
+        >
           <input
             className={styles.input}
             type="text"

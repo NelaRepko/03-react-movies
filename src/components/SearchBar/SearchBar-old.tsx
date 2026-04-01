@@ -1,16 +1,15 @@
 import toast from "react-hot-toast";
 import styles from "./SearchBar.module.css";
 
-export default function SearchBar({
-  onSubmit,
-}: {
+// ✅ export вирішує проблему з noUnusedLocals
+export type SearchBarProps = {
   onSubmit: (query: string) => void;
-}) {
-  // Використовуємо нативний SubmitEvent для сучасного TS
-  const handleSubmit = (e: SubmitEvent) => {
+};
+
+export default function SearchBar({ onSubmit }: SearchBarProps) {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
 
-    // currentTarget завжди <form>
     const form = e.currentTarget as HTMLFormElement;
     const input = form.elements.namedItem("query") as HTMLInputElement;
     const value = input.value.trim();
@@ -36,11 +35,7 @@ export default function SearchBar({
           Powered by TMDB
         </a>
 
-        <form
-          className={styles.form}
-          // Передаємо нативну подію SubmitEvent
-          onSubmit={(e) => handleSubmit(e.nativeEvent as SubmitEvent)}
-        >
+        <form className={styles.form} onSubmit={handleSubmit}>
           <input
             className={styles.input}
             type="text"
